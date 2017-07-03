@@ -23,9 +23,16 @@ export default ({async = false}) => {
     const func = descriptor.value
 
     descriptor.value = function (...args) {
+      let forceUpdate = false
+      // 强制刷新缓存
+      if (args.indexOf('CACHE_FORCE_UPDATE') >= 0) {
+        args.splice(args.indexOf('CACHE_FORCE_UPDATE'), 1)
+        forceUpdate = true
+      }
+
       let key = hash(args)
 
-      if (cache.has(key)) {
+      if (cache.has(key) && !forceUpdate) {
         console.log(`get from cache ${key}`)
         return proccessPromise(cache.get(key), async)
       }
