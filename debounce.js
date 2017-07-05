@@ -1,5 +1,5 @@
 /**
- * 节流函数，timeStep内不会被处罚两次或以上
+ * 节流函数，timeStep内不会被触发两次或以上
  * @param  {Number} timeStep [description]
  */
 export default timeStep => {
