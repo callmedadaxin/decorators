@@ -5,16 +5,11 @@
 export default timeStep => {
   return (target, name, descriptor) => {
     const fn = descriptor.value
-    let calling = false
+    let timer
 
     descriptor.value = function (...args) {
-      if (calling) {
-        return
-      }
-
-      fn.apply(this, args)
-      calling = true
-      setTimeout(_ => calling = false, timeStep)
+      clearTimeout(timer)
+      timer = setTimeout(_ => fn.apply(this, args), timeStep)
     }
 
     return descriptor
